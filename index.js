@@ -62,6 +62,14 @@ client.connect(err => {
     })
   })
 
+  app.get('/orderinfo', (req, res) => {
+    ordersCollection.find({email: req.query.email})
+    .toArray((err, documents) => {
+      console.log(documents)
+      res.send(documents)
+    })
+  })
+
 });
 
 
