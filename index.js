@@ -1,7 +1,7 @@
 const express = require('express')
-const app = express()
+const app = express();
 const cors = require('cors');
-const bodyParser  = require('body-parser');
+// const bodyParser  = require('body-parser');
 const port =process.env.PORT || 5000;
 require('dotenv').config()
 
@@ -11,7 +11,8 @@ const ObjectID = require('mongodb').ObjectID;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ij0ac.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
 console.log(process.env.DB_USER);
 
@@ -47,6 +48,17 @@ client.connect(err => {
     productCollection.find({_id: ObjectID(req.params.id)})
     .toArray((err, documents) => {
       res.send(documents)
+    })
+  })
+
+  // order info added to database
+
+  app.post('/orders', (req, res) => {
+    const orderInfo = req.body;
+    ordersCollection.insertOne(orderInfo)
+    .then(result => {
+      console.log(result);
+      res.send(result.insertedCount > 0);
     })
   })
 
