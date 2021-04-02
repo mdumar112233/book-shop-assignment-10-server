@@ -1,8 +1,7 @@
 const express = require('express')
 const app = express();
 const cors = require('cors');
-// const bodyParser  = require('body-parser');
-const port =process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 require('dotenv').config()
 
 // databse connection
@@ -16,15 +15,14 @@ app.use(express.urlencoded({extended:false}));
 
 
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-
 client.connect(err => {
     console.log('databse connection error', err);
   const productCollection = client.db("bookshop").collection("products");
   const ordersCollection = client.db("bookshop").collection("orders");
+  
+  app.get('/', (req, res) => {
+    res.send('Hello World!')
+  })
   
   app.post('/addBook', (req, res) => {
     const book = req.body;
