@@ -70,6 +70,14 @@ client.connect(err => {
     })
   })
 
+  app.delete('/delete/:id', (req, res) => {
+    productCollection.deleteOne({_id: ObjectID(req.params.id)})
+    .then(result => {
+      console.log(result)
+      res.send(result.deletedCount > 0)
+    })
+  })
+
 });
 
 
