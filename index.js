@@ -14,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
-console.log(process.env.DB_USER);
 
 
 app.get('/', (req, res) => {
